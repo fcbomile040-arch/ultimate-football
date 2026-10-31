@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07152b">
+<title>Ultimate Football Cards</title>
+<style>
+:root{--bg:#07152b;--panel:#102542;--panel2:#173557;--gold:#ffd76a;--cyan:#58e1df;--muted:#a9bdd3}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#183c60 0,#07152b 48%,#040b17 100%);color:#f5f8ff;font-family:system-ui,Arial,sans-serif}
+header{padding:18px 16px 12px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border-bottom:1px solid #ffffff1c}
+.logo{font-weight:1000;letter-spacing:1px;font-size:22px}.logo span{color:var(--gold)}
+.balances{display:flex;gap:7px;flex-wrap:wrap}.pill{background:#0b2039;border:1px solid #315477;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800}
+nav{display:flex;gap:8px;padding:12px 14px;overflow:auto}button{border:0;border-radius:12px;padding:11px 14px;font-weight:850;cursor:pointer;color:#07152b;background:var(--gold)}button:disabled{opacity:.45;cursor:not-allowed}
+nav button{white-space:nowrap;background:#173454;color:#dcecff}nav button.active{background:var(--gold);color:#101a2b}
+main{max-width:1100px;margin:auto;padding:8px 14px 40px}.hero{background:linear-gradient(120deg,#174a69,#172d51 60%,#453b64);border:1px solid #ffffff25;border-radius:22px;padding:22px;margin:8px 0 18px;position:relative;overflow:hidden}
+.hero:after{content:"⚽";position:absolute;font-size:120px;right:15px;top:0;opacity:.12}.eyebrow{color:var(--cyan);font-size:12px;font-weight:900;letter-spacing:2px}.hero h1{font-size:clamp(26px,5vw,42px);margin:7px 0}.hero p{color:#d0e2f2;max-width:590px;margin:0 0 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.panel{background:linear-gradient(150deg,#14304f,#0b1c33);border:1px solid #ffffff1b;border-radius:18px;padding:16px;box-shadow:0 12px 28px #0003}.panel h2,.panel h3{margin:0 0 10px}.muted{color:var(--muted);font-size:13px}.big{font-size:30px;font-weight:1000;color:var(--gold)}
+.cardrow{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px}.player{width:150px;min-height:210px;border-radius:16px;padding:12px;text-align:center;background:linear-gradient(160deg,#c89b43,#f7e3a1 42%,#78501e);color:#18243a;border:2px solid #fff2;box-shadow:0 8px 20px #0005;position:relative}
+.player.rare{background:linear-gradient(160deg,#6d9fc8,#d7f0ff 45%,#2e5c8a)}.player.epic{background:linear-gradient(160deg,#a875d4,#f0d8ff 45%,#613c8c)}.player.legend{background:linear-gradient(160deg,#d7a83d,#fff0ae 45%,#98651a)}
+.rating{font-size:30px;font-weight:1000;text-align:left}.pos{font-size:11px;font-weight:900;text-align:left}.avatar{font-size:54px;margin:4px}.pname{font-weight:1000;font-size:15px}.details{font-size:10px;font-weight:700;opacity:.8;margin-top:5px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.secondary{background:#23486a;color:#edf7ff}.green{background:#5ce0b1}.danger{background:#ff9b9b}
+section{display:none}section.show{display:block}.notice{padding:12px;border-radius:12px;background:#0b2039;border:1px solid #315477;color:#c8ddf1;font-size:13px;margin-top:12px}
+.statline{display:flex;justify-content:space-between;border-bottom:1px solid #ffffff17;padding:9px 0;font-size:14px}.empty{color:#9db4cc;padding:20px;text-align:center;border:1px dashed #46627e;border-radius:14px}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#f6d779;color:#17243a;padding:12px 18px;border-radius:12px;font-weight:900;display:none;z-index:5;box-shadow:0 6px 25px #0008}
+footer{text-align:center;color:#7893ad;font-size:11px;padding:22px}
+@media(max-width:520px){header{align-items:flex-start}.balances{width:100%}.pill{font-size:11px}.player{width:calc(50% - 7px)}}
+</style></head>
+<body>
+<header><div class="logo">ULTIMATE <span>FOOTBALL</span></div><div class="balances">
+<div class="pill">💎 <b id="diamonds">2.000.000</b></div><div class="pill">🪙 <b id="tokens">2.000.000</b></div><div class="pill">🔄 <b id="transfers">2.000.000</b></div></div></header>
+<nav>
+<button class="active" data-tab="home">Inicio</button><button data-tab="packs">Sobres</button><button data-tab="club">Mi club</button><button data-tab="market">Mercado</button><button data-tab="matches">Partidos</button>
+</nav>
+<main>
+<section id="home" class="show">
+<div class="hero"><div class="eyebrow">TEMPORADA DE LEYENDAS</div><h1>Construí tu equipo definitivo</h1><p>Abrí sobres, conseguí cartas, armá tu once y jugá partidos rápidos. ¡Tu aventura empieza ahora!</p><button onclick="showTab('packs')">ABRIR SOBRES</button></div>
+<div class="grid">
+<div class="panel"><div class="muted">VALORACIÓN DEL EQUIPO</div><div class="big" id="ovr">0</div><div class="muted">Promedio de tus mejores jugadores</div></div>
+<div class="panel"><div class="muted">JUGADORES EN EL CLUB</div><div class="big" id="count">0</div><div class="muted">Cartas coleccionadas</div></div>
+<div class="panel"><div class="muted">PARTIDOS GANADOS</div><div class="big" id="wins">0</div><div class="muted">Seguí sumando victorias</div></div>
+</div>
+<div class="panel" style="margin-top:14px"><h2>⭐ Equipo destacado</h2><div id="featured" class="cardrow"></div></div>
+</section>
+<section id="packs">
+<div class="hero"><div class="eyebrow">CENTRO DE SOBRES</div><h1>¡Descubrí nuevas estrellas!</h1><p>Cada sobre entrega una carta aleatoria. Los sobres especiales tienen mejores posibilidades de conseguir jugadores de mayor valoración.</p></div>
+<div class="grid">
+<div class="panel"><h3>Sobre clásico</h3><div class="big">GRATIS</div><p class="muted">Una carta sorpresa para empezar.</p><button onclick="openPack('classic')">ABRIR SOBRE</button></div>
+<div class="panel"><h3>Sobre élite</h3><div class="big">💎 5.000</div><p class="muted">Mejores posibilidades de cartas épicas y leyenda.</p><button onclick="openPack('elite')">ABRIR SOBRE</button></div>
+<div class="panel"><h3>Sobre definitivo</h3><div class="big">🪙 10.000</div><p class="muted">Una oportunidad especial de conseguir una leyenda.</p><button onclick="openPack('ultimate')">ABRIR SOBRE</button></div>
+</div><div class="panel" style="margin-top:14px"><h2>🎁 Última carta obtenida</h2><div id="lastCard" class="cardrow"><div class="empty">Todavía no abriste sobres.</div></div></div>
+</section>
+<section id="club"><div class="hero"><div class="eyebrow">TU COLECCIÓN</div><h1>Mi club</h1><p>Tus jugadores conseguidos. Elegí tus favoritos y armá tu plantilla ideal.</p></div><div class="panel"><div class="statline"><b>Cartas totales</b><b id="clubCount">0</b></div><div id="collection" class="cardrow"></div></div></section>
+<section id="market"><div class="hero"><div class="eyebrow">INTERCAMBIOS</div><h1>Mercado de fichas</h1><p>Intercambiá cartas repetidas por fichas transferibles. Esta es una economía de juego local y ficticia.</p></div><div class="panel"><h3>Vender una carta repetida</h3><p class="muted">Recibís 2.500 fichas transferibles por cada carta que vendas. Conservá al menos una copia de cada jugador.</p><div id="sellList"></div></div></section>
+<section id="matches"><div class="hero"><div class="eyebrow">MODO PARTIDO</div><h1>Desafío rápido</h1><p>Tu valoración de equipo se enfrenta a un rival generado para el partido.</p><button onclick="playMatch()">JUGAR PARTIDO</button></div><div class="panel"><h2>📋 Resultado</h2><div id="matchResult" class="empty">Todavía no jugaste ningún partido.</div></div></section>
+</main><footer>Juego independiente de demostración. No es un producto oficial ni está conectado a EA SPORTS FC Mobile.</footer><div id="toast"></div>
+<script>
+const players=[
+["Leo Ríos",92,"DEL","🇦🇷","Atlético Sur","legend"],["Matías Vega",89,"MED","🇦🇷","Real Bahía","epic"],["Damián Costa",87,"DEF","🇺🇾","Puerto FC","rare"],["Thiago Soler",95,"DEL","🇧🇷","São Verde","legend"],["Nicolás Prado",84,"POR","🇨🇱","Unión Norte","rare"],["Enzo Vidal",90,"MED","🇫🇷","Olympique Azul","epic"],["Gabriel Luna",86,"DEF","🇪🇸","Madrid Blanco","rare"],["Tomás Ferrer",97,"DEL","🇵🇹","Lisboa Real","legend"],["Iker Montes",82,"POR","🇲🇽","Capital FC","common"],["Bruno Silva",88,"MED","🇧🇷","Rio Atlético","epic"],["Santino Paz",80,"DEF","🇦🇷","Deportivo Central","common"],["Alex Duarte",93,"DEL","🇳🇱","Amsterdam 09","legend"]];
+let club=[],wins=0,diamonds=2000000,tokens=2000000,transfers=2000000,last=null;
+const fmt=n=>n.toLocaleString("es-AR");
+function toast(t){let e=document.getElementById("toast");e.textContent=t;e.style.display="block";setTimeout(()=>e.style.display="none",2200)}
+function card(p){return `<div class="player ${p[5]}"><div class="rating">${p[1]}</div><div class="pos">${p[2]}</div><div class="avatar">${p[3]}</div><div class="pname">${p[0]}</div><div class="details">${p[4]}<br>${p[5].toUpperCase()}</div></div>`}
+function render(){document.getElementById("diamonds").textContent=fmt(diamonds);document.getElementById("tokens").textContent=fmt(tokens);document.getElementById("transfers").textContent=fmt(transfers);document.getElementById("count").textContent=club.length;document.getElementById("clubCount").textContent=club.length;document.getElementById("wins").textContent=wins;
+let sorted=[...club].sort((a,b)=>b[1]-a[1]);let avg=sorted.length?Math.round(sorted.slice(0,11).reduce((s,p)=>s+p[1],0)/Math.min(11,sorted.length)):0;document.getElementById("ovr").textContent=avg;
+document.getElementById("featured").innerHTML=sorted.length?sorted.slice(0,4).map(card).join(""):'<div class="empty">Abrí tu primer sobre para conseguir jugadores.</div>';
+document.getElementById("collection").innerHTML=sorted.length?sorted.map(card).join(""):'<div class="empty">Tu club está vacío. ¡Abrí un sobre!</div>';
+let counts={};club.forEach(p=>counts[p[0]]=(counts[p[0]]||0)+1);
+let repeated=club.filter(p=>counts[p[0]]>1);document.getElementById("sellList").innerHTML=repeated.length?repeated.map((p,i)=>`<div class="statline"><span>${p[0]} (${p[1]})</span><button class="secondary" onclick="sell('${p[0]}')">Vender repetida</button></div>`).join(""):'<div class="empty">No tenés cartas repetidas para vender.</div>';
+}
+function showTab(id){document.querySelectorAll("section").forEach(s=>s.classList.toggle("show",s.id===id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.tab===id))}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function openPack(type){let cost=type==="elite"?5000: type==="ultimate"?10000:0;if(type==="elite"&&diamonds<cost||type==="ultimate"&&tokens<cost){toast("No tenés saldo suficiente.");return}if(type==="elite")diamonds-=cost;if(type==="ultimate")tokens-=cost;
+let pool=players.filter(p=>type==="classic"?true:type==="elite"?p[1]>=84:p[1]>=87);let p=pool[Math.floor(Math.random()*pool.length)];club.push(p);last=p;document.getElementById("lastCard").innerHTML=card(p);render();toast("¡Conseguiste a "+p[0]+"!");}
+function sell(name){let idx=club.findIndex(p=>p[0]===name);if(idx<0)return;club.splice(idx,1);transfers+=2500;render();toast("Carta vendida: +2.500 fichas transferibles");}
+function playMatch(){if(club.length<3){toast("Necesitás al menos 3 jugadores para jugar.");return}let sorted=[...club].sort((a,b)=>b[1]-a[1]);let mine=Math.round(sorted.slice(0,11).reduce((s,p)=>s+p[1],0)/Math.min(11,sorted.length));let rival=80+Math.floor(Math.random()*16);let a=Math.floor(Math.random()*4),b=Math.floor(Math.random()*4);let win=mine>rival||(mine===rival&&a>=b);if(win){wins++;tokens+=1500;diamonds+=500;}document.getElementById("matchResult").innerHTML=`<div class="big">${a} - ${b}</div><h3>${win?"¡VICTORIA! 🏆":a===b?"EMPATE":"DERROTA"}</h3><p class="muted">Tu equipo: ${mine} de valoración · Rival: ${rival}</p>${win?'<p>Recompensa: +500 💎 y +1.500 🪙</p>':'<p>¡Probá mejorar tu plantilla y volvé a intentarlo!</p>'}`;render();}
+render();
+</script></body></html>
